@@ -1,11 +1,13 @@
 import {
     defineConfig
 } from 'vite';
+import vue from "@vitejs/plugin-vue"; //add this line
 import laravel from 'laravel-vite-plugin';
 const path = require('path') // <-- require path from node
 
 export default defineConfig({
     plugins: [
+        vue(),
         laravel({
             // edit the first value of the array input to point to our new sass files and folder.
             input: ['resources/scss/app.scss', 'resources/js/app.js'],

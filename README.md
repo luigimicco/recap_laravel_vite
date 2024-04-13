@@ -18,3 +18,8 @@
 
 ### Rotte e viste
 - npm install @fortawesome/fontawesome-free
+
+## API: rotta e controller
+- php artisan make:controller API\BookController
+- (npm update)
+- npm install @vitejs/plugin-vue@4.6.2
