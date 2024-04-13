@@ -21,12 +21,33 @@
                         <table v-if="books.length" class="table table-condensed table-striped">
                             <thead>
                               <tr>
-                                  <th scope="col">ISBN</th>
-                                  <th scope="col">Title</th>
+                                  <th scope="col">
+                                    <SortableLink @sort="setOrder"
+                                      text="ISBN"
+                                      field="isbn"
+                                      type="alpha"
+                                      :orderby="orderby"
+                                      :order="order" />
+                                  </th>
+                                  <th scope="col">
+                                    <SortableLink @sort="setOrder"
+                                      text="Title"
+                                      field="title"
+                                      type="alpha"
+                                      :orderby="orderby"
+                                      :order="order" />
+                                  </th>
                                   <th scope="col">Author</th>
                                   <th scope="col">Pages</th>
                                   <th scope="col">Price</th>
-                                  <th scope="col">Year</th>
+                                  <th scope="col">
+                                    <SortableLink @sort="setOrder"
+                                      text="Year"
+                                      field="year"
+                                      type="amount"
+                                      :orderby="orderby"
+                                      :order="order" />
+                                  </th>
                                   <th scope="col">Soldout</th>
                                   <th scope="col"></th>
                               </tr>
@@ -65,16 +86,20 @@
 <script>
 import axios from "axios";
 import TableLoader from "../../components/TableLoader.vue";
+import SortableLink from "../../components/SortableLink.vue";
 
 export default {
   props: [],
   components: {
-    TableLoader
+    TableLoader,
+    SortableLink
   },
   data() {
     return {
       books: [],
       isLoading: false,
+      orderby: "title",
+      order: "asc",
     };
   },
 
@@ -86,7 +111,7 @@ export default {
       this.isLoading = true;
       axios
         .get(
-          `/api/books`
+          `/api/books?orderby=${this.orderby}&order=${this.order}`
         )
         .then((response) => {
           this.books = response.data;
@@ -97,6 +122,12 @@ export default {
         .then(() => {
           this.isLoading = false;
         });
+    },
+
+    setOrder(orderby, order) {
+      this.orderby = orderby;
+      this.order = order;
+      this.getItems();
     },
 
   },
