@@ -8,10 +8,13 @@
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
-                            <div class="col-6">
+                            <div class="col-2">
                                 <h2>Books</h2>
                             </div>
-                            <div class="col-6 text-end">
+                            <div class="col-8">
+                              <TableSearch @setFilter="setFilter" />
+                            </div>
+                            <div class="col-2 text-end">
                                 <a href="#" class="btn btn-warning"><i class="fa-solid fa-plus"></i>&nbsp;Create new book</a>                               
                             </div>
                         </div>
@@ -87,12 +90,14 @@
 import axios from "axios";
 import TableLoader from "../../components/TableLoader.vue";
 import SortableLink from "../../components/SortableLink.vue";
+import TableSearch from "../../components/TableSearch.vue";
 
 export default {
   props: [],
   components: {
     TableLoader,
-    SortableLink
+    SortableLink,
+    TableSearch,
   },
   data() {
     return {
@@ -100,6 +105,7 @@ export default {
       isLoading: false,
       orderby: "title",
       order: "asc",
+      search: "",
     };
   },
 
@@ -111,7 +117,7 @@ export default {
       this.isLoading = true;
       axios
         .get(
-          `/api/books?orderby=${this.orderby}&order=${this.order}`
+          `/api/books?orderby=${this.orderby}&order=${this.order}&search=${this.search}`
         )
         .then((response) => {
           this.books = response.data;
@@ -122,6 +128,12 @@ export default {
         .then(() => {
           this.isLoading = false;
         });
+    },
+
+    setFilter(value) {
+      this.search = value;
+
+      this.getItems();
     },
 
     setOrder(orderby, order) {

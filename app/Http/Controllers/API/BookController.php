@@ -13,7 +13,13 @@ class BookController extends Controller
     {
         $orderby = $request->orderby ?? 'title';
         $order = $request->order ?? 'asc';
+        $search = $request->search ?? '';
+
         $books = Book::orderBy($orderby, $order);
+        if ($search) {
+            $books = $books->where('title', 'LIKE', '%' . $search . '%')
+                ->orWhere('author', 'LIKE', '%' . $search . '%');
+        }
         $books = $books->get();
         return response()->json($books);
     }
