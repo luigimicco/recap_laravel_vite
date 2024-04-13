@@ -2,8 +2,6 @@
 
 @section('main-content')
 
-    @include('partials.popup')
-
     <section class="container">
         <div class="row">
 
@@ -16,9 +14,6 @@
                                 <h2>Books</h2>
                             </div>
                             <div class="col-6 text-end">
-                                @if ($trashed)
-                                <a  class="btn btn-primary" href="{{ route('books.trashed') }}"><b>{{$trashed}}</b> item/s in recycled bin</a>
-                                @endif 
                                 <a href="{{ route('books.create') }}" class="btn btn-warning"><i class="fa-solid fa-plus"></i>&nbsp;Create new
                                     book</a>                               
                             </div>
@@ -29,13 +24,13 @@
                             <thead>
                                 <tr>
 
-                                    <th scope="col"><a  class="btn btn-link" href="{{ route('books.index', "sort=ISBN") }}">ISBN</a></th>
-                                    <th scope="col"><a  class="btn btn-link" href="{{ route('books.index', "sort=title") }}">Title</a></th>
-                                    <th scope="col"><a  class="btn btn-link" href="{{ route('books.index', "sort=author") }}">Author</a></th>
-                                    <th scope="col"><a  class="btn btn-link" href="{{ route('books.index', "sort=pages") }}">Pages</a></th>
-                                    <th scope="col"><a  class="btn btn-link" href="{{ route('books.index', "sort=price") }}">Price</a></th>
-                                    <th scope="col"><a  class="btn btn-link" href="{{ route('books.index', "sort=year") }}">Year</a></th>
-                                    <th scope="col"><a  class="btn btn-link" href="{{ route('books.index', "sort=soldout") }}">Soldout</a></th>
+                                    <th scope="col">ISBN</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Author</th>
+                                    <th scope="col">Pages</th>
+                                    <th scope="col">Price</th>
+                                    <th scope="col">Year</th>
+                                    <th scope="col">Soldout</th>
                                     <th scope="col"></th>
                                 </tr>
                             </thead>
@@ -48,19 +43,11 @@
                                         <td>{{ $book->pages }}</td>
                                         <td class="text-end">{{ $book->price }}</td>
                                         <td>{{ $book->year }}</td>
-                                        <td><form action="{{ route('books.toggle', $book->id) }}" method="POST">
-                                                @method('PATCH')
-                                                @csrf
-                                                <button type="submit" title="{{$book->soldout ? 'stock' : 'soldout' }}" class="btn btn-outline" ><i class="fa-2x fa-solid fas fa-fw {{$book->soldout ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i></button>
-                                            </form></td>
+                                        <td>
+                                            <button type="submit" title="{{$book->soldout ? 'stock' : 'soldout' }}" class="btn btn-outline" ><i class="fa-2x fa-solid fas fa-fw {{$book->soldout ? 'fa-toggle-on' : 'fa-toggle-off' }}"></i></button>
+                                        </td>
                                         <td class="text-end">
                                             <a href="{{ route('books.show', $book->id) }}" class="btn btn-success" title="show"><i class="fa-solid fa-eye"></i></a>
-                                            <a href="{{ route('books.edit', $book->id) }}" class="btn btn-primary" title="edit"><i class="fa-solid fa-edit"></i></a>
-                                            <form class="d-inline delete" action="{{route('books.destroy', $book->id)}}" method="POST" >
-                                                @csrf
-                                                @method('DELETE')
-                                                <button type="submit" class="btn btn-danger" title="delete"><i class="fa-solid fa-trash"></i></button>
-                                            </form>
                                         </td>
                                     </tr>
                                 @empty
@@ -82,6 +69,3 @@
     </section>
 @endsection
 
-@section('script')
-    @vite('resources/js/confirmDelete.js')
-@endsection

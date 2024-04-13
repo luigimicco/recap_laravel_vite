@@ -10,3 +10,12 @@
 - php artisan preset:ui bootstrap
 - npm install
 - composer require doctrine/dbal
+- npm install @fortawesome/fontawesome-free
+
+### Migrazione, Seeder e controller
+- php artisan make:controller --resource BookController --model Book
+- php artisan make:migration create_books_table
+- php artisan make:seeder BooksSeeder
+
+### Rotte e viste
+- npm install @fortawesome/fontawesome-free
