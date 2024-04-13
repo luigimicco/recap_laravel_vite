@@ -25,3 +25,5 @@
 - npm install @vitejs/plugin-vue@4.6.2
 
 ### Bozza vista con Vite
+
+### Loader

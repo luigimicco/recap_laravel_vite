@@ -5,7 +5,6 @@
         <div class="row">
 
             <div class="col-12 ">
-
                 <div class="card">
                     <div class="card-header">
                         <div class="row">
@@ -18,6 +17,7 @@
                         </div>
                     </div>
                     <div class="card-body">                
+                      <div v-if="!isLoading">
                         <table v-if="books.length" class="table table-condensed table-striped">
                             <thead>
                               <tr>
@@ -49,6 +49,8 @@
                             </tbody>
                         </table>
                         <h2 v-else>No items</h2>
+                      </div>
+                      <TableLoader v-else/>
                     </div>
                     <div class="card-footer text-end">
                         <b>{{ books.length }}</b> item/s
@@ -62,14 +64,17 @@
 </template>
 <script>
 import axios from "axios";
+import TableLoader from "../../components/TableLoader.vue";
 
 export default {
   props: [],
   components: {
+    TableLoader
   },
   data() {
     return {
       books: [],
+      isLoading: false,
     };
   },
 
@@ -78,6 +83,7 @@ export default {
   },
   methods: {
     getItems() {
+      this.isLoading = true;
       axios
         .get(
           `/api/books`
@@ -89,7 +95,7 @@ export default {
           console.log("Error", error);
         })
         .then(() => {
-
+          this.isLoading = false;
         });
     },
 
