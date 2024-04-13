@@ -22,6 +22,7 @@
         @yield('main-content')
     </main>
     @yield('script')
+    @stack('js')
 </body>
 
 </html>
